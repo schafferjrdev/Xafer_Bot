@@ -1,5 +1,3 @@
 pyTelegramBotAPI
-datetime
-pydub
 python-decouple
-gTTS
+random
