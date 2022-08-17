@@ -1,6 +1,9 @@
+from logging import exception
 import telebot
+import requests
 from decouple import config
 from random import randrange
+from bs4 import BeautifulSoup
 
 API_KEY = config("TOKEN_TELEGRAM")
 
@@ -72,6 +75,33 @@ def bait(msg):
         msg.chat.id, "Diga lá, Tino.")
     bot.send_photo(
         msg.chat.id, photo=sentiu, reply_to_message_id=get_message_id(msg))
+
+
+def get_person_name(text):
+    try:
+        person = f"@{text.split('@',1)[1]}"
+        return person
+    except:
+        return ''
+
+
+@bot.message_handler(commands=["parabens"])
+def parabens(msg):
+
+    extra = ['', 'amigo/', 'amiga/', 'aniversario-irma/', 'irmao/',
+             'filha/', 'filho/', 'mae/', 'prima/', 'sobrinha/', 'sobrinho/']
+    page = randrange(len(extra))
+    URL = f"https://www.frasesdeaniversario.com.br/{extra[page]}"
+    page = requests.get(URL)
+
+    soup = BeautifulSoup(page.content, "html.parser")
+    results = soup.find_all("img")
+
+    number = randrange(len(results))
+
+    parabens = results[number]['src']
+    bot.send_photo(
+        msg.chat.id, caption=get_person_name(msg.text), photo=parabens, reply_to_message_id=get_message_id(msg))
 
 # @bot.message_handler(commands=["google"])
 # def google(msg):
