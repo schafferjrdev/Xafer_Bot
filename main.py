@@ -137,9 +137,8 @@ def triste(msg):
 
 @bot.message_handler(commands=["encerrada"])
 def encerrada(msg):
-    semana = open('./assets/semana.mp3', 'rb')
-    bot.send_audio(msg.chat.id, semana, title='São 4 horas da tarde de uma quarta-feira',
-                   reply_to_message_id=get_message_id(msg))
+    semana = open('./assets/semana.mp4', 'rb')
+    bot.send_video(msg.chat.id, video=semana)
 
 
 @bot.message_handler(commands=["peito"])
