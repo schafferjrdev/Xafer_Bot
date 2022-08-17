@@ -10,7 +10,7 @@ from pydub.utils import which
 
 AudioSegment.converter = which("ffmpeg")
 
-API_KEY = config("TOKEN_TEST")
+API_KEY = config("TOKEN_TELEGRAM")
 
 bot = telebot.TeleBot(API_KEY)
 
