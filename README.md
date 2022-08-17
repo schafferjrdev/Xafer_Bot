@@ -3,7 +3,7 @@
 ## Comandos
 
 comandos - Quer saber por que?
-no - No. Nope. Não. Nie. Não mesmo. Sério, não.  
+no - No. Nope. Não. Nein. Não mesmo. Sério, não.  
 sentiu - Diga lá, Lú  
 rosalia - Yo no soy y ni vi'a ser tu bizcochito
 saoko - Chica, ¿qué dices?
