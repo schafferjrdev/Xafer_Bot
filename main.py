@@ -163,6 +163,28 @@ def feliz(msg):
     bot.send_video(msg.chat.id, video=feliz, caption='😁😆😁🤪',
                    reply_to_message_id=get_message_id(msg))
 
+
+@bot.message_handler(commands=["comandos"])
+def comandos(msg):
+    bot.reply_to(
+        msg, """    O Cão é muito bem articulado.
+/comandos - Quer saber por que?
+/no - No. Nope. Não. Nie. Não mesmo. Sério, não.  
+/sentiu - Diga lá, Lú  
+/rosalia - Yo no soy y ni vi'a ser tu bizcochito
+/saoko - Chica, ¿qué dices?
+/bait - Wow, nice bait  
+/hahaha - HAHAHAHA KKKKK ASUHASHUHUAS
+/quit - Até logo, até mais ver, bon voyage
+/parabens - Aê, hora de apagar a velinha 😈
+/triste - Fico muito triste com isso 🎉🎉
+/encerrada - ...semana praticamente encerrada
+/peito - meu peito vai se abᵣᵢᵣ...
+/vazio - Ahh o vazio.
+/macetar - Posso macetar?
+/feliz - 😁😆😁🤪
+    """)
+
 # @bot.message_handler(commands=["google"])
 # def google(msg):
 #     print(msg)
