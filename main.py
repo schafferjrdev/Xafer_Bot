@@ -30,7 +30,7 @@ def saoko(msg):
 
 
 @bot.message_handler(commands=["rosalia"])
-def bizcochito(msg):
+def rosalia(msg):
     number = randrange(1, 5)
     bizcochito = open(f'./assets/saoko/{number}.mp4', 'rb')
     bot.send_animation(
@@ -47,7 +47,7 @@ def hahaha(msg):
 
 
 @bot.message_handler(commands=["quit"])
-def hahaha(msg):
+def quit(msg):
     quit = open('./assets/quit.png', 'rb')
     byes = ["Até logo", "Até mais ver", "Bon voyage", "Arrivederci", "Até mais",
             "Adeus", "Boa viagem", "Vá em paz", "Que a porta bata onde o sol não bate"]
@@ -85,7 +85,7 @@ def bait(msg):
 
 
 @bot.message_handler(commands=["sentiu"])
-def bait(msg):
+def sentiu(msg):
     sentiu = open('./assets/sentiu.png', 'rb')
 
     bot.send_message(
@@ -230,6 +230,7 @@ def comandos(msg):
 /vazio - Ahh o vazio.
 /macetar - Posso macetar?
 /feliz - 😁😆😁🤪
+/piadoca - 😅😅
     """)
 
 # @bot.message_handler(commands=["google"])
