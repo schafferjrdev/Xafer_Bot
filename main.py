@@ -3,8 +3,14 @@ import requests
 from decouple import config
 from random import randrange
 from bs4 import BeautifulSoup
+from io import BytesIO
+from gtts import gTTS
+from pydub import AudioSegment
+from pydub.utils import which
 
-API_KEY = config("TOKEN_TELEGRAM")
+AudioSegment.converter = which("ffmpeg")
+
+API_KEY = config("TOKEN_TEST")
 
 bot = telebot.TeleBot(API_KEY)
 
@@ -162,6 +168,47 @@ def feliz(msg):
     feliz = open('./assets/felicidade.mp4', 'rb')
     bot.send_video(msg.chat.id, video=feliz, caption='😁😆😁🤪',
                    reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["piadoca"])
+def piadoca(msg):
+    pensar = ['Lá vai...', 'Deixa eu pensar...', 'Vou ver aqui...',
+              'Hm...', 'Deixe-me ver...', 'Tem essa aqui...']
+    n_pensar = randrange(len(pensar))
+
+    bot.reply_to(
+        msg, pensar[n_pensar])
+
+    URL = f"https://trocadil.io/api/aleatorio"
+    piada = requests.get(URL).json()[0]
+
+    mp3_fp = BytesIO()
+    answer_tts = gTTS(piada['answer'], lang='pt')
+    answer_tts.write_to_fp(mp3_fp)
+    mp3_fp.seek(0)
+    answer = AudioSegment.from_mp3(mp3_fp)
+
+    mp3_fp2 = BytesIO()
+    question_tts = gTTS(piada['question'], lang='pt')
+    question_tts.write_to_fp(mp3_fp2)
+    mp3_fp2.seek(0)
+    question = AudioSegment.from_mp3(mp3_fp2)
+
+    risadas = ['hahaha', 'kkkkk', 'rsrsrs', 'hehehe']
+    number = randrange(len(risadas))
+
+    mp3_fp3 = BytesIO()
+    risada_tts = gTTS(risadas[number], lang='pt')
+    risada_tts.write_to_fp(mp3_fp3)
+    mp3_fp3.seek(0)
+    risada = AudioSegment.from_mp3(mp3_fp3)
+
+    piada = question+answer+risada
+    mp3IO = BytesIO()
+    piada.export(mp3IO, format="mp3")
+
+    bot.send_audio(msg.chat.id, mp3IO.getvalue(), performer='Cão',
+                   title=risadas[number])
 
 
 @bot.message_handler(commands=["comandos"])

@@ -1,3 +1,5 @@
 pyTelegramBotAPI
 python-decouple
 beautifulsoup4
+gtts 
+pydub
