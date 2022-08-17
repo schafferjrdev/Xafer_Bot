@@ -1,4 +1,3 @@
-from logging import exception
 import telebot
 import requests
 from decouple import config
@@ -11,7 +10,6 @@ bot = telebot.TeleBot(API_KEY)
 
 
 def get_message_id(msg):
-    print('has reply', msg.reply_to_message)
     try:
         return msg.reply_to_message.message_id
     except (NameError, AttributeError) as e:
@@ -20,16 +18,17 @@ def get_message_id(msg):
 
 @bot.message_handler(commands=["saoko"])
 def saoko(msg):
-    number = randrange(1, 5)
-    saoko = open(f'./assets/saoko/{number}.mp4', 'rb')
     que_dices = open('./assets/que_dices.mp3', 'rb')
+    bot.send_audio(msg.chat.id, que_dices,
+                   performer='Rosalía', title='Chica, ¿qué dices?', reply_to_message_id=get_message_id(msg))
 
-    if msg.text.find('hablo') != -1:
-        bot.send_audio(msg.chat.id, que_dices,
-                       performer='Rosalía', title='Chica, ¿qué dices?', reply_to_message_id=get_message_id(msg))
-    else:
-        bot.send_animation(
-            msg.chat.id, animation=saoko, reply_to_message_id=get_message_id(msg))
+
+@bot.message_handler(commands=["rosalia"])
+def bizcochito(msg):
+    number = randrange(1, 5)
+    bizcochito = open(f'./assets/saoko/{number}.mp4', 'rb')
+    bot.send_animation(
+        msg.chat.id, animation=bizcochito, reply_to_message_id=get_message_id(msg))
 
 
 @bot.message_handler(commands=["hahaha"])
@@ -60,7 +59,21 @@ def no(msg):
 
 @bot.message_handler(commands=["bait"])
 def bait(msg):
-    bait = open('./assets/bait.jpg', 'rb')
+    name = 'bait'
+    if msg.text.find('?') != -1 or msg.text.find('❓') != -1:
+        name = 'is_bait'
+    if msg.text.find('⭐') != -1 or msg.text.find('excellent') != -1:
+        name = 'excellent_bait'
+    if msg.text.find('🐳') != -1 or msg.text.find('🐋') != -1 or msg.text.find('big') != -1:
+        name = 'bigger_bait'
+    if msg.text.find('low') != -1:
+        name = 'low_bait'
+    if msg.text.find('high') != -1:
+        name = 'high_bait'
+    if msg.text.find('nice') != -1:
+        name = 'nice_bait'
+
+    bait = open(f'./assets/baits/{name}.png', 'rb')
     bot.send_photo(
         msg.chat.id, photo=bait, reply_to_message_id=get_message_id(msg))
 
@@ -79,8 +92,15 @@ def bait(msg):
 
 def get_person_name(text):
     try:
-        person = f"@{text.split('@',1)[1]}"
-        return person
+        list = text.split('@')
+        if len(list) <= 1:
+            return ''
+        txt = list[-1].lstrip()
+        person = f"@{txt}"
+        if person.find('tio_lu_bot') == -1:
+            return person
+        else:
+            return ''
     except:
         return ''
 
@@ -96,12 +116,52 @@ def parabens(msg):
 
     soup = BeautifulSoup(page.content, "html.parser")
     results = soup.find_all("img")
-
-    number = randrange(len(results))
-
+    number = randrange(1, len(results))
     parabens = results[number]['src']
     bot.send_photo(
         msg.chat.id, caption=get_person_name(msg.text), photo=parabens, reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["triste"])
+def triste(msg):
+    triste = open('./assets/triste.png', 'rb')
+    bot.send_photo(
+        msg.chat.id, photo=triste, caption='🎉🎉🎉', reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["encerrada"])
+def encerrada(msg):
+    semana = open('./assets/semana.mp3', 'rb')
+    bot.send_audio(msg.chat.id, semana, title='São 4 horas da tarde de uma quarta-feira',
+                   reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["peito"])
+def peito(msg):
+    peito = open('./assets/peito.mp3', 'rb')
+    bot.send_audio(msg.chat.id, peito, performer='peito', title='vai se abᵣᵢᵣ...',
+                   reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["vazio"])
+def vazio(msg):
+    vazio = open('./assets/vazio.mp3', 'rb')
+    bot.send_audio(msg.chat.id, vazio, title='Ahh o Vazio.',
+                   reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["macetar"])
+def macetar(msg):
+    macetar = open('./assets/posso_macetar.mp4', 'rb')
+    bot.send_video(msg.chat.id, video=macetar, caption='Posso... macetar?',
+                   reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["feliz"])
+def feliz(msg):
+    feliz = open('./assets/felicidade.mp4', 'rb')
+    bot.send_video(msg.chat.id, video=feliz, caption='😁😆😁🤪',
+                   reply_to_message_id=get_message_id(msg))
 
 # @bot.message_handler(commands=["google"])
 # def google(msg):
