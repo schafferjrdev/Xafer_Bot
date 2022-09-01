@@ -12,7 +12,7 @@ from datetime import datetime
 
 AudioSegment.converter = which("ffmpeg")
 
-API_KEY = config("TOKEN_TEST")
+API_KEY = config("TOKEN_TELEGRAM")
 
 bot = telebot.TeleBot(API_KEY)
 
