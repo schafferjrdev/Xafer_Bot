@@ -17,4 +17,4 @@ peito - meu peito vai se abᵣᵢᵣ...
 vazio - Ahh o vazio.
 macetar - Posso macetar?
 feliz - 😁😆😁🤪
-aniversariante - Quem tá de parabéns?
+aniversariantes - Quem tá de parabéns?
