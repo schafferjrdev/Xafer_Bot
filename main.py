@@ -7,10 +7,12 @@ from io import BytesIO
 from gtts import gTTS
 from pydub import AudioSegment
 from pydub.utils import which
+import pytz
+from datetime import datetime
 
 AudioSegment.converter = which("ffmpeg")
 
-API_KEY = config("TOKEN_TELEGRAM")
+API_KEY = config("TOKEN_TEST")
 
 bot = telebot.TeleBot(API_KEY)
 
@@ -169,45 +171,99 @@ def feliz(msg):
                    reply_to_message_id=get_message_id(msg))
 
 
-@bot.message_handler(commands=["piadoca"])
-def piadoca(msg):
-    pensar = ['Lá vai...', 'Deixa eu pensar...', 'Vou ver aqui...',
-              'Hm...', 'Deixe-me ver...', 'Tem essa aqui...']
-    n_pensar = randrange(len(pensar))
+@bot.message_handler(commands=["aniversariantes"])
+def aniversariante(msg):
+    aniversariantes = ["Carol,02/01,Capricórnio",
+                       "Dennys,09/02,Aquário",
+                       "Mariana,14/02,Aquário",
+                       "Nayeli,13/03,Peixes",
+                       "Thetheu,28/03,Áries",
+                       "Iza,30/04,Touro",
+                       "Schaffer,10/06,Gêmeos",
+                       "Rafael,19/07,Câncer",
+                       "Luana,24/07,Leão",
+                       "Rayane,28/07,Leão",
+                       "Vinícius,01/08,Leão",
+                       "Letícia,16/08,Leão",
+                       "Bruna,24/08,Virgem",
+                       "Marcos,31/08,Virgem",
+                       "Aquiles,01/09,Virgem",
+                       "Saulo,17/09,Virgem",
+                       "Paolla,30/09,Libra",
+                       "Estela,01/10,Libra",
+                       "Renato,15/10,Libra",
+                       "Marília,09/12,Sagitário",
+                       "Bia,22/12,Capricórnio"]
+
+    date = datetime.now(pytz.timezone('America/Sao_Paulo'))
+
+    def current_birthdays(p):
+        month = p.split(",")[1].split('/')[1]
+        current_month = date.strftime("%m")
+        return month == current_month
+
+    aniversariantes_mes = filter(current_birthdays, aniversariantes)
+
+    def birthday(i):
+        name = i.split(",")[0]
+        day = i.split(",")[1].split('/')[0]
+        return f"{name} no dia {day}"
+
+    lista_aniversario = list(map(birthday, aniversariantes_mes))
+
+    meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+
+    msg_mes = f"Para o mês de {meses[int(date.strftime('%m'))-1]}"
+    msg_aniversariantes = 'Ninguém...'
+
+    if len(lista_aniversario) > 0:
+        msg_aniversariantes = '\n'.join(list(lista_aniversario))
+
+    final_msg = f"{msg_mes}\n{msg_aniversariantes}"
 
     bot.reply_to(
-        msg, pensar[n_pensar])
+        msg, final_msg)
 
-    URL = f"https://trocadil.io/api/aleatorio"
-    piada = requests.get(URL).json()[0]
+# @bot.message_handler(commands=["piadoca"])
+# def piadoca(msg):
+#     pensar = ['Lá vai...', 'Deixa eu pensar...', 'Vou ver aqui...',
+#               'Hm...', 'Deixe-me ver...', 'Tem essa aqui...']
+#     n_pensar = randrange(len(pensar))
 
-    mp3_fp = BytesIO()
-    answer_tts = gTTS(piada['answer'], lang='pt')
-    answer_tts.write_to_fp(mp3_fp)
-    mp3_fp.seek(0)
-    answer = AudioSegment.from_mp3(mp3_fp)
+#     bot.reply_to(
+#         msg, pensar[n_pensar])
 
-    mp3_fp2 = BytesIO()
-    question_tts = gTTS(piada['question'], lang='pt')
-    question_tts.write_to_fp(mp3_fp2)
-    mp3_fp2.seek(0)
-    question = AudioSegment.from_mp3(mp3_fp2)
+#     URL = f"https://trocadil.io/api/aleatorio"
+#     piada = requests.get(URL).json()[0]
 
-    risadas = ['hahaha', 'kkkkk', 'rsrsrs', 'hehehe']
-    number = randrange(len(risadas))
+#     mp3_fp = BytesIO()
+#     answer_tts = gTTS(piada['answer'], lang='pt')
+#     answer_tts.write_to_fp(mp3_fp)
+#     mp3_fp.seek(0)
+#     answer = AudioSegment.from_mp3(mp3_fp)
 
-    mp3_fp3 = BytesIO()
-    risada_tts = gTTS(risadas[number], lang='pt')
-    risada_tts.write_to_fp(mp3_fp3)
-    mp3_fp3.seek(0)
-    risada = AudioSegment.from_mp3(mp3_fp3)
+#     mp3_fp2 = BytesIO()
+#     question_tts = gTTS(piada['question'], lang='pt')
+#     question_tts.write_to_fp(mp3_fp2)
+#     mp3_fp2.seek(0)
+#     question = AudioSegment.from_mp3(mp3_fp2)
 
-    piada = question+answer+risada
-    mp3IO = BytesIO()
-    piada.export(mp3IO, format="mp3")
+#     risadas = ['hahaha', 'kkkkk', 'rsrsrs', 'hehehe']
+#     number = randrange(len(risadas))
 
-    bot.send_audio(msg.chat.id, mp3IO.getvalue(), performer='Cão',
-                   title=risadas[number])
+#     mp3_fp3 = BytesIO()
+#     risada_tts = gTTS(risadas[number], lang='pt')
+#     risada_tts.write_to_fp(mp3_fp3)
+#     mp3_fp3.seek(0)
+#     risada = AudioSegment.from_mp3(mp3_fp3)
+
+#     piada = question+answer+risada
+#     mp3IO = BytesIO()
+#     piada.export(mp3IO, format="mp3")
+
+#     bot.send_audio(msg.chat.id, mp3IO.getvalue(), performer='Cão',
+#                    title=risadas[number])
 
 
 @bot.message_handler(commands=["comandos"])
@@ -229,7 +285,7 @@ def comandos(msg):
 /vazio - Ahh o vazio.
 /macetar - Posso macetar?
 /feliz - 😁😆😁🤪
-/piadoca - 😅😅
+/aniversariante - Quem tá de parabéns?
     """)
 
 # @bot.message_handler(commands=["google"])
