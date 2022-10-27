@@ -151,6 +151,12 @@ def encerrada(msg):
     bot.send_video(msg.chat.id, video=semana)
 
 
+@bot.message_handler(commands=["tistreza"])
+def tistreza(msg):
+    tistreza = open('./assets/tistreza.mp4', 'rb')
+    bot.send_video(msg.chat.id, video=tistreza)
+
+
 @bot.message_handler(commands=["peito"])
 def peito(msg):
     peito = open('./assets/peito.mp3', 'rb')
@@ -172,7 +178,7 @@ def macetar(msg):
                    reply_to_message_id=get_message_id(msg))
 
 
-@bot.message_handler(commands=["feliz"])
+@bot.message_handler(commands=["alegria"])
 def feliz(msg):
     feliz = open('./assets/felicidade.mp4', 'rb')
     bot.send_video(msg.chat.id, video=feliz, caption='😁😆😁🤪',
