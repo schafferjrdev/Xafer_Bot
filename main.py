@@ -12,7 +12,7 @@ from datetime import datetime
 
 AudioSegment.converter = which("ffmpeg")
 
-API_KEY = config("TOKEN_TELEGRAM")
+API_KEY = config("TOKEN_XFR")
 
 bot = telebot.TeleBot(API_KEY)
 
@@ -31,6 +31,13 @@ def saoko(msg):
                    performer='Rosalía', title='Chica, ¿qué dices?', reply_to_message_id=get_message_id(msg))
 
 
+@bot.message_handler(commands=["L"])
+def fazol(msg):
+    que_dices = open('./assets/ole_ola.mp3', 'rb')
+    bot.send_audio(msg.chat.id, que_dices,
+                   performer='Lula', title='É 13! Faz o L!', reply_to_message_id=get_message_id(msg))
+
+
 @bot.message_handler(commands=["rosalia"])
 def rosalia(msg):
     number = randrange(1, 5)
@@ -39,13 +46,13 @@ def rosalia(msg):
         msg.chat.id, animation=bizcochito, reply_to_message_id=get_message_id(msg))
 
 
-@bot.message_handler(commands=["hahaha"])
-def hahaha(msg):
-    hahaha = open('./assets/hahaha.mp3', 'rb')
-    risadas = ['hahaha', 'kkkkk', 'rsrsrs', 'ashuahus']
+@bot.message_handler(commands=["risos"])
+def risos(msg):
+    risadas = ['cao', 'porta', 'pato', 'ventilador']
     number = randrange(len(risadas))
-    bot.send_audio(msg.chat.id, hahaha,
-                   title=risadas[number], reply_to_message_id=get_message_id(msg))
+    hahaha = open(f'./assets/haha_{risadas[number]}.mp4', 'rb')
+    bot.send_animation(
+        msg.chat.id, animation=hahaha, reply_to_message_id=get_message_id(msg))
 
 
 @bot.message_handler(commands=["quit"])

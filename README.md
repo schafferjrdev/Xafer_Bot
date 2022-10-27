@@ -4,11 +4,11 @@
 
 comandos - Quer saber por que?
 no - No. Nope. Não. Nein. Não mesmo. Sério, não.  
-sentiu - Diga lá, Lú  
+sentiu - Diga lá, Bot  
 rosalia - Yo no soy y ni vi'a ser tu bizcochito
 saoko - Chica, ¿qué dices?
 bait - Wow, nice bait  
-hahaha - HAHAHAHA KKKKK ASUHASHUHUAS
+risos - HAHAHAHA KKKKK ASUHASHUHUAS
 quit - Até logo, até mais ver, bon voyage
 parabens - Aê, hora de apagar a velinha 😈
 triste - Fico muito triste com isso 🎉🎉
