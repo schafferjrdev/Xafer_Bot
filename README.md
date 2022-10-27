@@ -16,6 +16,7 @@ encerrada - ...semana praticamente encerrada
 peito - meu peito vai se abᵣᵢᵣ...
 vazio - Ahh o vazio.
 macetar - Posso macetar?
-feliz - 😁😆😁🤪
+alegria - 😁😆😁🤪
+tistreza - que tistreza...
 aniversariantes - Quem tá de parabéns?
 hmm - 👏👏👏👏
