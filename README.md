@@ -1,4 +1,4 @@
-# Bot do tio Lú, ele responde por você
+# Xafer_Bot
 
 ## Comandos
 
