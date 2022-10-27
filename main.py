@@ -1,5 +1,6 @@
 import telebot
 import requests
+from telebot import types
 from decouple import config
 from random import randrange
 from bs4 import BeautifulSoup
@@ -35,7 +36,7 @@ def saoko(msg):
 def fazol(msg):
     que_dices = open('./assets/ole_ola.mp3', 'rb')
     bot.send_audio(msg.chat.id, que_dices,
-                   performer='Lula', title='É 13! Faz o L!', reply_to_message_id=get_message_id(msg))
+                   performer='Lula', title='É 13! Vai dar PT!', reply_to_message_id=get_message_id(msg))
 
 
 @bot.message_handler(commands=["rosalia"])
@@ -273,6 +274,55 @@ def aniversariante(msg):
 #                    title=risadas[number])
 
 
+@bot.message_handler(commands=["hmm"])
+def mosca(msg):
+    mosca = open('./assets/mosca.mp4', 'rb')
+    bot.send_animation(msg.chat.id, animation=mosca,
+                       reply_to_message_id=get_message_id(msg))
+
+
+@bot.message_handler(commands=["jokenpo"])
+def jokenpo(msg):
+    btn_scissor = types.InlineKeyboardButton('✌️', callback_data='✌️')
+    btn_stone = types.InlineKeyboardButton('✊', callback_data='✊')
+    btn_paper = types.InlineKeyboardButton('✋', callback_data='✋')
+
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.col_width = 3
+    keyboard.add(btn_scissor)
+    keyboard.add(btn_stone)
+    keyboard.add(btn_paper)
+
+    bot.send_message(msg.chat.id, text='Jo Ken Po',
+                     reply_markup=keyboard)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    opts = ['✌️', '✊', '✋']
+    choice = opts[randrange(1, len(opts))]
+    user = call.data
+
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                          text=f'{user}')
+    bot.send_message(call.message.chat.id, f'{choice}')
+
+    if user == choice:
+        bot.send_message(call.message.chat.id, 'Empatamos, boa jogada...')
+    elif user == '✌️' and choice == '✊':
+        bot.send_message(call.message.chat.id, 'Ganhei!!')
+    elif user == '✌️' and choice == '✋':
+        bot.send_message(call.message.chat.id, 'Ahh perdi...')
+    elif user == '✊' and choice == '✌️':
+        bot.send_message(call.message.chat.id, 'Ahh perdi...')
+    elif user == '✊' and choice == '✋':
+        bot.send_message(call.message.chat.id, 'Ganhei!!')
+    elif user == '✋' and choice == '✌️':
+        bot.send_message(call.message.chat.id, 'Ganhei!!')
+    elif user == '✋' and choice == '✊':
+        bot.send_message(call.message.chat.id, 'Ahh perdi...')
+
+
 @bot.message_handler(commands=["comandos"])
 def comandos(msg):
     bot.reply_to(
@@ -283,7 +333,7 @@ def comandos(msg):
 /rosalia - Yo no soy y ni vi'a ser tu bizcochito
 /saoko - Chica, ¿qué dices?
 /bait - Wow, nice bait  
-/hahaha - HAHAHAHA KKKKK ASUHASHUHUAS
+/risos - HAHAHAHA KKKKK ASUHASHUHUAS
 /quit - Até logo, até mais ver, bon voyage
 /parabens - Aê, hora de apagar a velinha 😈
 /triste - Fico muito triste com isso 🎉🎉
@@ -293,6 +343,7 @@ def comandos(msg):
 /macetar - Posso macetar?
 /feliz - 😁😆😁🤪
 /aniversariantes - Quem tá de parabéns?
+/hmm - 👏👏👏👏
     """)
 
 # @bot.message_handler(commands=["google"])

@@ -18,3 +18,4 @@ vazio - Ahh o vazio.
 macetar - Posso macetar?
 feliz - 😁😆😁🤪
 aniversariantes - Quem tá de parabéns?
+hmm - 👏👏👏👏
