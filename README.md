@@ -1,6 +1,6 @@
 # Xafer_Bot
 
-## Comandos
+### Comandos
 
 comandos - Quer saber por que?
 no - No. Nope. Não. Nein. Não mesmo. Sério, não.  
